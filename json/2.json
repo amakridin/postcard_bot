@@ -1,0 +1,12 @@
+{
+  "font": "c059033l.pfb",
+  "fontsize": 50,
+  "rotation": -2,
+  "gravity": "center",
+  "text_x": 100,
+  "text_y": 0,
+  "stroke_color": "red",
+  "fill_color": "black",
+  "row_symbols": 30,
+  "rows": 12
+}

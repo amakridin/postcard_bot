@@ -1,0 +1,11 @@
+{
+  "font": "c059033l.pfb",
+  "fontsize": 26,
+  "gravity": "east",
+  "text_x": 70,
+  "text_y": -70,
+  "stroke_color": "gray",
+  "fill_color": "red",
+  "row_symbols": 21,
+  "rows": 8
+}

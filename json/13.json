@@ -1,0 +1,11 @@
+{
+  "font": "n021023l.pfb",
+  "fontsize": 30,
+  "text_x": 0,
+  "text_y": 100,
+  "gravity": "fill",
+  "stroke_color": "black",
+  "fill_color": "black",
+  "row_symbols": 30,
+  "rows": 8
+}
