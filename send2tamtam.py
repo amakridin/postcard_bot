@@ -3,7 +3,7 @@ import requests
 from pgmagick.api import Image, Draw
 
 token = 'DA5juDSuRp_QgJjoKHzw-VEKO17oJ5C41vawrsu1ztU'
-proxies = {'http': 'url-proxy.megafon.ru:3128', 'https': 'url-proxy.megafon.ru:3128'}
+# proxies = {'http': 'url-proxy.megafon.ru:3128', 'https': 'url-proxy.megafon.ru:3128'}
 f = open('tree.json', 'r')
 tree_json = eval(f.read())
 f.close()
