@@ -30,7 +30,8 @@ def worker(json_id):
 marker = 0
 while True:
     try:
-        r = requests.get(url if marker == 0 else url+f"&marker={marker}", timeout=30, stream=True, proxies=proxies).json()
+        # r = requests.get(url if marker == 0 else url+f"&marker={marker}", timeout=30, stream=True, proxies=proxies).json()
+        r = requests.get(url if marker == 0 else url+f"&marker={marker}", timeout=30, stream=True).json()
         marker = r['marker']
         t = threading.Thread(target=worker, args=(r, ))
         t.start()

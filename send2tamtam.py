@@ -1,6 +1,6 @@
 import json
 import requests
-from pgmagick.api import Image, Draw
+from PIL import Image, ImageDraw, ImageFont
 
 token = 'DA5juDSuRp_QgJjoKHzw-VEKO17oJ5C41vawrsu1ztU'
 # proxies = {'http': 'url-proxy.megafon.ru:3128', 'https': 'url-proxy.megafon.ru:3128'}
@@ -10,13 +10,16 @@ f.close()
 def simple_message(chat_id, msg, token):
     json_init = {"text": f"{msg}"}
     url_init = 'https://botapi.tamtam.chat/messages?chat_id=' + str(chat_id) + '&access_token=' + token
-    ret = requests.post(url_init, data=json.dumps(json_init), proxies=proxies)
+    # ret = requests.post(url_init, data=json.dumps(json_init), proxies=proxies)
+    ret = requests.post(url_init, data=json.dumps(json_init))
     return ret.json()
 
 def load_image(img_name):
-    url_load = (requests.post(url='https://botapi.tamtam.chat/uploads?type=image&access_token='+token, verify=False, proxies=proxies).json())['url']
+    # url_load = (requests.post(url='https://botapi.tamtam.chat/uploads?type=image&access_token='+token, verify=False, proxies=proxies).json())['url']
+    url_load = (requests.post(url='https://botapi.tamtam.chat/uploads?type=image&access_token='+token, verify=False).json())['url']
     files = {'request_file': open(img_name, 'rb')}
-    ret = requests.post(url=url_load,files=files, verify=False, proxies=proxies).json()
+    # ret = requests.post(url=url_load,files=files, verify=False, proxies=proxies).json()
+    ret = requests.post(url=url_load,files=files, verify=False).json()
     url_token = None
     for key in (ret['photos'].keys()):
         url_token = ret['photos'][key]['token']
@@ -36,7 +39,8 @@ def construct_message(session_id, input, payload, message):
             kb = [{"type": "callback", "text": key, "payload": key}]
             keyboard['buttons'].append(kb)
             jsn = {"messages": [{"text": caption}], "allow_user_input": False, "keyboard": keyboard}
-            json_ret = requests.post(url=url_init, data=json.dumps((jsn)), proxies=proxies).json()
+            # json_ret = requests.post(url=url_init, data=json.dumps((jsn)), proxies=proxies).json()
+            json_ret = requests.post(url=url_init, data=json.dumps((jsn))).json()
     elif id is None and message != '':
         print('payload', payload)
         file_index = payload.replace("select:", "")
@@ -53,7 +57,8 @@ def construct_message(session_id, input, payload, message):
                          [{"type": "image", "payload": {"token": url_token}}]
                      }],
                "allow_user_input": True, "keyboard": keyboard}
-        json_ret = requests.post(url=url_init, data=json.dumps((jsn)), proxies=proxies).json()
+        # json_ret = requests.post(url=url_init, data=json.dumps((jsn)), proxies=proxies).json()
+        json_ret = requests.post(url=url_init, data=json.dumps((jsn))).json()
     elif id.find("select:") == 0:
         file_index = id.replace("select:", "")
         file_index = file_index[0:file_index.find("|")]
@@ -66,7 +71,8 @@ def construct_message(session_id, input, payload, message):
                          [{"type": "image", "payload": {"token": url_token}}]
                      }],
                "allow_user_input": True, "keyboard": keyboard}
-        json_ret = requests.post(url=url_init, data=json.dumps((jsn)), proxies=proxies).json()
+        # json_ret = requests.post(url=url_init, data=json.dumps((jsn)), proxies=proxies).json()
+        json_ret = requests.post(url=url_init, data=json.dumps((jsn))).json()
     elif id.find("go:") == 0:
         file_index = id.replace("go:","")
         file_index = file_index[0:file_index.find("|")]
@@ -136,23 +142,27 @@ def make_postcard(template, text):
     params = eval(f.read())
     f.close()
     text = transorm_text(text=text, symbols=params["row_symbols"], rows=params["rows"])
+    print(text)
     if text.find("#error") == 0:
-        print(text)
+        pass
     else:
+        img = Image.open(f"templates/{template}.jpg", "r")
+        width, height = img.size
+        img = img.rotate(0 if params.get("rotation") is None else params["rotation"], expand=1)
+        print(img.size)
+        fnt = ImageFont.truetype(f"fonts/{params['font']}", params["fontsize"])
+        d = ImageDraw.Draw(img)
+        d.text(xy=(0 if params.get("text_x") is None else params["text_x"], 0 if params.get("text_y") is None else params["text_y"]),
+               text=text,
+               align=params['align'],
+               font=fnt,
+               width=width,
+               height=height,
+               fill=(params['fill_color'][0], params['fill_color'][1], params['fill_color'][2]))
+        img = img.rotate(0 if params.get("rotation") is None else -params["rotation"], expand=1)
+        img.save(f"out/{template}.jpg")
 
-        # ini =
-        d = Draw()
-        d.pointsize(params["fontsize"])
-        d.rotation(0 if params.get("rotation") is None else params["rotation"])
-        d.gravity("center" if params.get("gravity") is None else params["gravity"])
-        d.text(x=0 if params.get("text_x") is None else params["text_x"], y=0 if params.get("text_y") is None else params["text_y"], string=text)
-        d.stroke_color(color="black" if params.get("stroke_color") is None else params["stroke_color"])
-        d.fill_color(color="black" if params.get("fill_color") is None else params["fill_color"])
-        img = Image(f"templates/{template}.jpg")
-        img.font(f"fonts/{params['font']}")
-        img.draw(draw_obj=d)
-        file_out = f"out/{template}.jpg"
-        img.write(file_out)
 
 if (__name__ == '__main__'):
-    pass
+    print(transorm_text(text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                  symbols=23, rows=10))

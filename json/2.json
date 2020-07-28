@@ -1,12 +1,12 @@
 {
-  "font": "c059033l.pfb",
+  "font": "timesi.ttf",
   "fontsize": 50,
-  "rotation": -2,
-  "gravity": "center",
-  "text_x": 100,
-  "text_y": 0,
+  "rotation": -3.5,
+  "align": "center",
+  "text_x": 150,
+  "text_y": 60,
   "stroke_color": "red",
-  "fill_color": "black",
+  "fill_color": [219,9,48],
   "row_symbols": 30,
   "rows": 12
 }

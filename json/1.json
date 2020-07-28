@@ -1,11 +1,11 @@
 {
-  "font": "c059033l.pfb",
-  "fontsize": 26,
-  "gravity": "east",
+  "font": "Gabriola.ttf",
+  "fontsize": 42,
+  "align": "right",
   "text_x": 70,
   "text_y": -70,
   "stroke_color": "gray",
-  "fill_color": "red",
-  "row_symbols": 21,
-  "rows": 8
+  "fill_color": [219,9,48],
+  "row_symbols": 23,
+  "rows": 10
 }
