@@ -47,8 +47,8 @@ def construct_message(session_id, input, payload, message):
         file_index = file_index[0:file_index.find("|")]
         postcard_key = payload[payload.find("|") + 1:]
         img_name = tree_json[postcard_key][int(file_index)]
-        make_postcard(template=img_name, text=message)
-        url_token = load_image(img_name="out/"+img_name+".jpg")
+        make_postcard(template=img_name, text=message, session_id=session_id)
+        url_token = load_image(img_name="out/"+session_id+".jpg")
         keyboard['buttons'].append([{"type": "callback", "text": "Назад", "intent": "negative",
                                      "payload": f"go:{file_index}|{postcard_key}"}])
         jsn = {"messages":
@@ -137,7 +137,7 @@ def transorm_text(text, symbols, rows, text_align=''):
             new_text1 = new_text1 + text1 + '\n'
         new_text = new_text1
     return new_text
-def make_postcard(template, text):
+def make_postcard(template, text, session_id):
     f = open(f"json/{template}.json", "r")
     params = eval(f.read())
     f.close()
@@ -160,7 +160,7 @@ def make_postcard(template, text):
                height=height,
                fill=(params['fill_color'][0], params['fill_color'][1], params['fill_color'][2]))
         img = img.rotate(0 if params.get("rotation") is None else -params["rotation"], expand=1)
-        img.save(f"out/{template}.jpg")
+        img.save(f"out/{session_id}.jpg")
 
 
 if (__name__ == '__main__'):

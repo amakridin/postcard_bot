@@ -1,8 +1,9 @@
 {
-  "font": "n019003l.pfb",
-  "fontsize": 64,
-  "stroke_color": "black",
-  "fill_color": "black",
-  "row_symbols": 34,
-  "rows": 8
+  "font": "palab.ttf",
+  "fontsize": 60,
+  "align": "center",
+  "text_y": 40,
+  "fill_color": [0,0,0],
+  "row_symbols": 30,
+  "rows": 13
 }
