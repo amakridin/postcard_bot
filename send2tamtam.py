@@ -157,7 +157,7 @@ def make_postcard(template, text, session_id):
                align=params['align'],
                font=fnt,
                width=width,
-               height=height,
+               height=0 if str(params.get('align_y')) == "top" else height,
                fill=(params['fill_color'][0], params['fill_color'][1], params['fill_color'][2]))
         img = img.rotate(0 if params.get("rotation") is None else -params["rotation"], expand=1)
         img.save(f"out/{session_id}.jpg")

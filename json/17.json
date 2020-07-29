@@ -1,0 +1,11 @@
+{
+  "font": "SCHLBKB.TTF",
+  "fontsize": 27,
+  "text_x": 30,
+  "text_y": 85,
+  "align": "left",
+  "align_y": "top",
+  "fill_color": [108,85,53],
+  "row_symbols": 45,
+  "rows": 11
+}
