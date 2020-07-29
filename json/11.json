@@ -1,10 +1,10 @@
 {
-  "font": "b018032l.pfb",
-  "fontsize": 18,
-  "text_x": 20,
-  "text_y": -40,
-  "stroke_color": "black",
-  "fill_color": "red",
-  "row_symbols": 23,
-  "rows": 14
+  "font": "georgiai.ttf",
+  "fontsize": 14,
+  "text_x": 10,
+  "text_y": -50,
+  "align": "center",
+  "fill_color": [132,14,2],
+  "row_symbols": 30,
+  "rows": 22
 }

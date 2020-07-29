@@ -1,10 +1,10 @@
 {
-  "font": "n021023l.pfb",
-  "fontsize": 18,
-  "text_x": 0,
-  "text_y": 40,
-  "stroke_color": "blue",
-  "fill_color": "blue",
+  "font": "segoeprb.ttf",
+  "fontsize": 12,
+  "text_x": 10,
+  "text_y": 25,
+  "align": "center",
+  "fill_color": [72,110,119],
   "row_symbols": 45,
-  "rows": 8
+  "rows": 10
 }

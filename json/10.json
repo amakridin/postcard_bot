@@ -1,11 +1,10 @@
 {
-  "font": "c059033l.pfb",
-  "fontsize": 26,
-  "gravity": "east",
-  "text_x": 70,
-  "text_y": -70,
-  "stroke_color": "gray",
-  "fill_color": "red",
-  "row_symbols": 21,
-  "rows": 8
+  "font": "segoeprb.ttf",
+  "fontsize": 12,
+  "text_x": -120,
+  "text_y": -15,
+  "align": "center",
+  "fill_color": [101,67,40],
+  "row_symbols": 30,
+  "rows": 16
 }

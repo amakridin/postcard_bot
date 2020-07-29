@@ -1,9 +1,10 @@
 {
-  "font": "a010013l.pfb",
-  "fontsize": 18,
+  "font": "segoeprb.ttf",
+  "fontsize": 12,
   "text_x": -120,
-  "stroke_color": "white",
-  "fill_color": "white",
-  "row_symbols": 23,
-  "rows": 13
+  "text_y": -15,
+  "align": "center",
+  "fill_color": [255,255,255],
+  "row_symbols": 30,
+  "rows": 16
 }
