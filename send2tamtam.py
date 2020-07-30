@@ -117,7 +117,7 @@ def transorm_text(text, symbols, rows, text_align=''):
                 cur_symbols += len(i) + 1
             else:
                 if rows_ + 1 < rows:
-                    new_text = new_text + "\n" + i + " "
+                    new_text = new_text.rstrip() + "\n" + i + " "
                     rows_ += 1
                     cur_symbols = len(i) + 1
     if text_align == 'fill':
@@ -125,8 +125,9 @@ def transorm_text(text, symbols, rows, text_align=''):
         for text in new_text.splitlines():
             add_symb = symbols - len(text)
             cur_spaces = len(text) - len(text.replace(" ", ""))
-            space = add_symb // cur_spaces
-            tail = add_symb % cur_spaces
+            space = 0 if cur_spaces == 0 else add_symb // cur_spaces
+            print(space)
+            tail = 0 if cur_spaces == 0 else add_symb % cur_spaces
             text = text.replace(' ', ''.join([' ' for s in range(space + 1)]))
             text1 = ""
             for nn in range(len(text)):
@@ -143,7 +144,10 @@ def make_postcard(template, text, session_id):
     params = eval(f.read())
     f.close()
     columns = 1 if params.get("columns") is None else params["columns"]
-    text = transorm_text(text=text, symbols=params["row_symbols"], rows=params["rows"] if columns == 1 else int(params["rows"])*2+1)
+    text = transorm_text(text=text,
+                         symbols=params["row_symbols"],
+                         rows=params["rows"] if columns == 1 else int(params["rows"])*2+1,
+                         text_align='left' if params.get('align') is None else params['align'])
     if text.find("#error") == 0:
         pass
     else:
@@ -155,7 +159,7 @@ def make_postcard(template, text, session_id):
         d = ImageDraw.Draw(img)
         d.text(xy=(0 if params.get("text_x") is None else params["text_x"], 0 if params.get("text_y") is None else params["text_y"]),
                text=text if columns == 1 else "\n".join(text.splitlines()[0:params["rows"]]),
-               align=params['align'],
+               align='left' if params.get('align') is None or str(params.get('align')) == 'fill' else params['align'],
                font=fnt,
                width=width,
                height=0 if str(params.get('align_y')) == "top" else height,
@@ -164,7 +168,7 @@ def make_postcard(template, text, session_id):
             d.text(xy=(width/2 if params.get("text_x") is None else width/2 + params["text_x"],
                        0 if params.get("text_y") is None else params["text_y"]),
                    text="\n".join(text.splitlines()[params["rows"]:params["rows"]*2]),
-                   align=params['align'],
+                   align='left' if params.get('align') is None or str(params.get('align')) == 'fill' else params['align'],
                    font=fnt,
                    width=width,
                    height=0 if str(params.get('align_y')) == "top" else height,

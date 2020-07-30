@@ -1,12 +1,12 @@
 {
   "font": "cour.ttf",
   "fontsize": 24,
-  "text_x": 20,
-  "text_y": 170,
+  "text_x": 25,
+  "text_y": 270,
   "align": "fill",
   "align_y": "top",
   "columns": 2,
   "fill_color": [81,77,76],
   "row_symbols": 32,
-  "rows": 33
+  "rows": 21
 }
