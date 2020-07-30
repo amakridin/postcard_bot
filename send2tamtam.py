@@ -102,7 +102,7 @@ def go(session_id, postcard_key, file_index=0):
                  "attachments":
                      [{"type": "image", "payload": {"token": url_token}}]
                  }],
-           "allow_user_input": False, "placeholder": "next", "keyboard": keyboard}
+           "allow_user_input": False, "hint": "next", "keyboard": keyboard}
     json_ret = requests.post(url=url_init, data=json.dumps((jsn))).json()
 
 def transorm_text(text, symbols, rows, text_align=''):
