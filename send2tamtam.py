@@ -93,10 +93,10 @@ def go(session_id, postcard_key, file_index=0):
     img_next = file_index if file_index == file_count-1 else file_index+1
     url_token = load_image(img_name="templates/" + tree_json[postcard_key][file_index] + "_mini.jpg")
     keyboards.append({"type": "callback", "text": "⬅️", "intent": f"{'positive' if img_prev!=img_cur else 'default'}", "payload": f"go:{img_prev}|{postcard_key}"})
-    keyboards.append({"type": "callback", "text": "➡️", "intent": f"{'positive' if img_next!=img_cur else 'default'}", "payload": f"go:{img_next}|{postcard_key}"})
+    keyboards.append({"type": "callback", "text": "➡️", "intent": f"{'positive' if img_next!=img_cur else 'default'}", "placeholder": "next", "payload": f"go:{img_next}|{postcard_key}"})
     keyboard['buttons'].append(keyboards)
     keyboard['buttons'].append([{"type": "callback", "text": "✅", "intent": "negative", "payload": f"select:{img_cur}|{postcard_key}"}])
-    keyboard['buttons'].append([{"type": "callback", "text": "❌", "intent": "negative", "payload": f"root:"}])
+    keyboard['buttons'].append([{"type": "callback", "text": "❌", "intent": "default", "payload": f"root:"}])
     jsn = {"messages":
                [{"text": postcard_key,
                  "attachments":
