@@ -1,0 +1,11 @@
+{
+  "font": "cour.ttf",
+  "fontsize": 16,
+  "text_x": 158,
+  "text_y": 213,
+  "align": "left",
+  "align_y": "top",
+  "fill_color": [0,0,0],
+  "row_symbols": 40,
+  "rows": 8
+}

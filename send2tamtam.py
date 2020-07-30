@@ -34,7 +34,7 @@ def construct_message(session_id, input, payload, message):
     id = None
     if input == 'callback':
         id = payload
-    if id is None and message == '':
+    if id is None and message == '' or payload.find("root:") == 0:
         for key in tree_json.keys():
             kb = [{"type": "callback", "text": key, "payload": key}]
             keyboard['buttons'].append(kb)
@@ -92,10 +92,11 @@ def go(session_id, postcard_key, file_index=0):
     img_cur = file_index
     img_next = file_index if file_index == file_count-1 else file_index+1
     url_token = load_image(img_name="templates/" + tree_json[postcard_key][file_index] + "_mini.jpg")
-    keyboards.append({"type": "callback", "text": "Назад", "intent": f"{'positive' if img_prev!=img_cur else 'default'}", "payload": f"go:{img_prev}|{postcard_key}"})
-    keyboards.append({"type": "callback", "text": "Вперед", "intent": f"{'positive' if img_next!=img_cur else 'default'}", "payload": f"go:{img_next}|{postcard_key}"})
+    keyboards.append({"type": "callback", "text": "⬅️", "intent": f"{'positive' if img_prev!=img_cur else 'default'}", "payload": f"go:{img_prev}|{postcard_key}"})
+    keyboards.append({"type": "callback", "text": "➡️", "intent": f"{'positive' if img_next!=img_cur else 'default'}", "payload": f"go:{img_next}|{postcard_key}"})
     keyboard['buttons'].append(keyboards)
-    keyboard['buttons'].append([{"type": "callback", "text": "Выбрать", "intent": "negative", "payload": f"select:{img_cur}|{postcard_key}"}])
+    keyboard['buttons'].append([{"type": "callback", "text": "✅", "intent": "negative", "payload": f"select:{img_cur}|{postcard_key}"}])
+    keyboard['buttons'].append([{"type": "callback", "text": "❌", "intent": "negative", "payload": f"root:"}])
     jsn = {"messages":
                [{"text": postcard_key,
                  "attachments":
