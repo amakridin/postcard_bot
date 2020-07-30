@@ -52,11 +52,11 @@ def construct_message(session_id, input, payload, message):
         keyboard['buttons'].append([{"type": "callback", "text": "Назад", "intent": "negative",
                                      "payload": f"go:{file_index}|{postcard_key}"}])
         jsn = {"messages":
-                   [{"text": "Открытка готова",
+                   [{
                      "attachments":
                          [{"type": "image", "payload": {"token": url_token}}]
                      }],
-               "allow_user_input": True, "keyboard": keyboard}
+               "allow_user_input": True, "hint": "Готово!", "keyboard": keyboard}
         # json_ret = requests.post(url=url_init, data=json.dumps((jsn)), proxies=proxies).json()
         json_ret = requests.post(url=url_init, data=json.dumps((jsn))).json()
     elif id.find("select:") == 0:
@@ -66,11 +66,11 @@ def construct_message(session_id, input, payload, message):
         img_name = "templates/"+tree_json[postcard_key][int(file_index)]+"_mini.jpg"
         url_token = load_image(img_name=img_name)
         jsn = {"messages":
-                   [{"text": "Подпишите открытку",
+                   [{
                      "attachments":
                          [{"type": "image", "payload": {"token": url_token}}]
                      }],
-               "allow_user_input": True, "keyboard": keyboard}
+               "allow_user_input": True, "hint": "Добавь подпись", "keyboard": keyboard}
         # json_ret = requests.post(url=url_init, data=json.dumps((jsn)), proxies=proxies).json()
         json_ret = requests.post(url=url_init, data=json.dumps((jsn))).json()
     elif id.find("go:") == 0:
