@@ -26,7 +26,7 @@ def worker(json_id):
                                               input=row['input'].get('input_type'),
                                               payload=sessions[session_id].get('payload') if sessions.get(session_id) is not None else '',
                                               message=sessions[session_id].get('message') if sessions.get(session_id) is not None else '')
-                print(sessions)
+                # print(sessions)
 marker = 0
 while True:
     try:

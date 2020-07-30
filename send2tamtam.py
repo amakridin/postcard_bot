@@ -42,7 +42,7 @@ def construct_message(session_id, input, payload, message):
             # json_ret = requests.post(url=url_init, data=json.dumps((jsn)), proxies=proxies).json()
             json_ret = requests.post(url=url_init, data=json.dumps((jsn))).json()
     elif id is None and message != '':
-        print('payload', payload)
+        # print('payload', payload)
         file_index = payload.replace("select:", "")
         file_index = file_index[0:file_index.find("|")]
         postcard_key = payload[payload.find("|") + 1:]
@@ -126,7 +126,7 @@ def transorm_text(text, symbols, rows, text_align=''):
             add_symb = symbols - len(text)
             cur_spaces = len(text) - len(text.replace(" ", ""))
             space = 0 if cur_spaces == 0 else add_symb // cur_spaces
-            print(space)
+            # print(space)
             tail = 0 if cur_spaces == 0 else add_symb % cur_spaces
             text = text.replace(' ', ''.join([' ' for s in range(space + 1)]))
             text1 = ""
@@ -154,7 +154,7 @@ def make_postcard(template, text, session_id):
         img = Image.open(f"templates/{template}.jpg", "r")
         width, height = img.size
         img = img.rotate(0 if params.get("rotation") is None else params["rotation"], expand=1)
-        print(img.size)
+        # print(img.size)
         fnt = ImageFont.truetype(f"fonts/{params['font']}", params["fontsize"])
         d = ImageDraw.Draw(img)
         d.text(xy=(0 if params.get("text_x") is None else params["text_x"], 0 if params.get("text_y") is None else params["text_y"]),
