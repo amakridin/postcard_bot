@@ -98,11 +98,11 @@ def go(session_id, postcard_key, file_index=0):
     keyboard['buttons'].append([{"type": "callback", "text": "✅", "intent": "negative", "payload": f"select:{img_cur}|{postcard_key}"}])
     keyboard['buttons'].append([{"type": "callback", "text": "❌", "intent": "default", "payload": f"root:"}])
     jsn = {"messages":
-               [{"text": postcard_key,
+               [{
                  "attachments":
                      [{"type": "image", "payload": {"token": url_token}}]
                  }],
-           "allow_user_input": False, "hint": "next", "keyboard": keyboard}
+           "allow_user_input": False, "hint": "Выбери шаблон", "keyboard": keyboard}
     json_ret = requests.post(url=url_init, data=json.dumps((jsn))).json()
 
 def transorm_text(text, symbols, rows, text_align=''):
