@@ -38,7 +38,7 @@ def construct_message(session_id, input, payload, message):
         for key in tree_json.keys():
             kb = [{"type": "callback", "text": key, "payload": key}]
             keyboard['buttons'].append(kb)
-            jsn = {"messages": [{"text": caption}], "allow_user_input": False, "keyboard": keyboard}
+            jsn = {"messages": [{"text": caption}], "allow_user_input": False, "hint": "Выбери категорию", "keyboard": keyboard}
             # json_ret = requests.post(url=url_init, data=json.dumps((jsn)), proxies=proxies).json()
             json_ret = requests.post(url=url_init, data=json.dumps((jsn))).json()
     elif id is None and message != '':
@@ -66,11 +66,11 @@ def construct_message(session_id, input, payload, message):
         img_name = "templates/"+tree_json[postcard_key][int(file_index)]+"_mini.jpg"
         url_token = load_image(img_name=img_name)
         jsn = {"messages":
-                   [{
+                   [{"text": "Добавь подпись",
                      "attachments":
                          [{"type": "image", "payload": {"token": url_token}}]
                      }],
-               "allow_user_input": True, "hint": "Добавь подпись", "keyboard": keyboard}
+               "allow_user_input": True, "keyboard": keyboard}
         # json_ret = requests.post(url=url_init, data=json.dumps((jsn)), proxies=proxies).json()
         json_ret = requests.post(url=url_init, data=json.dumps((jsn))).json()
     elif id.find("go:") == 0:
@@ -102,7 +102,7 @@ def go(session_id, postcard_key, file_index=0):
                  "attachments":
                      [{"type": "image", "payload": {"token": url_token}}]
                  }],
-           "allow_user_input": False, "hint": "Выбери шаблон", "keyboard": keyboard}
+           "allow_user_input": False, "hint": "Выбери шаблон и добавь подпись", "keyboard": keyboard}
     json_ret = requests.post(url=url_init, data=json.dumps((jsn))).json()
 
 def transorm_text(text, symbols, rows, text_align=''):
@@ -142,8 +142,8 @@ def make_postcard(template, text, session_id):
     f = open(f"json/{template}.json", "r")
     params = eval(f.read())
     f.close()
-    text = transorm_text(text=text, symbols=params["row_symbols"], rows=params["rows"])
-    print(text)
+    columns = 1 if params.get("columns") is None else params["columns"]
+    text = transorm_text(text=text, symbols=params["row_symbols"], rows=params["rows"] if columns == 1 else int(params["rows"])*2+1)
     if text.find("#error") == 0:
         pass
     else:
@@ -154,12 +154,21 @@ def make_postcard(template, text, session_id):
         fnt = ImageFont.truetype(f"fonts/{params['font']}", params["fontsize"])
         d = ImageDraw.Draw(img)
         d.text(xy=(0 if params.get("text_x") is None else params["text_x"], 0 if params.get("text_y") is None else params["text_y"]),
-               text=text,
+               text=text if columns == 1 else "\n".join(text.splitlines()[0:params["rows"]]),
                align=params['align'],
                font=fnt,
                width=width,
                height=0 if str(params.get('align_y')) == "top" else height,
                fill=(params['fill_color'][0], params['fill_color'][1], params['fill_color'][2]))
+        if columns == 2:
+            d.text(xy=(width/2 if params.get("text_x") is None else width/2 + params["text_x"],
+                       0 if params.get("text_y") is None else params["text_y"]),
+                   text="\n".join(text.splitlines()[params["rows"]:params["rows"]*2]),
+                   align=params['align'],
+                   font=fnt,
+                   width=width,
+                   height=0 if str(params.get('align_y')) == "top" else height,
+                   fill=(params['fill_color'][0], params['fill_color'][1], params['fill_color'][2]))
         img = img.rotate(0 if params.get("rotation") is None else -params["rotation"], expand=1)
         img.save(f"out/{session_id}.jpg")
 
