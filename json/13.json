@@ -1,7 +1,7 @@
 {
   "font": "cour.ttf",
   "fontsize": 24,
-  "text_x": 20,
+  "text_x": 25,
   "text_y": 170,
   "align": "fill",
   "align_y": "top",

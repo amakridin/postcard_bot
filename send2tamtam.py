@@ -109,17 +109,20 @@ def transorm_text(text, symbols, rows, text_align=''):
     new_text = ''
     new_text1 = ''
     rows_ =0
-    cur_symbols = 0
-    for i in text.split(' '):
-        if rows_ < rows:
-            if cur_symbols + len(i) <= symbols:
-                new_text = new_text + i + " "
-                cur_symbols += len(i) + 1
-            else:
-                if rows_ + 1 < rows:
-                    new_text = new_text.rstrip() + "\n" + i + " "
-                    rows_ += 1
-                    cur_symbols = len(i) + 1
+    for t in text.splitlines():
+        cur_symbols = 0
+        for i in t.split(' '):
+            if rows_ < rows:
+                if cur_symbols + len(i) <= symbols:
+                    new_text = new_text + i + " "
+                    cur_symbols += len(i) + 1
+                else:
+                    if rows_ + 1 < rows:
+                        new_text = new_text.rstrip() + "\n" + i + " "
+                        rows_ += 1
+                        cur_symbols = len(i) + 1
+        new_text = new_text + "\n"
+        rows_ += 1
     if text_align == 'fill':
         new_text1 = ''
         for text in new_text.splitlines():
@@ -178,5 +181,5 @@ def make_postcard(template, text, session_id):
 
 
 if (__name__ == '__main__'):
-    print(transorm_text(text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                  symbols=23, rows=10))
+    print(transorm_text(text="С днем рождения поздравляю\nСчастья радости желаю\nНе пей, не бей, не матерись\nне отравляй нам с мамой жись",
+                  symbols=23, rows=6))
