@@ -3,7 +3,6 @@ import requests
 import send2tamtam
 
 token = 'DA5juDSuRp_QgJjoKHzw-VEKO17oJ5C41vawrsu1ztU'
-# proxies = {'http': 'url-proxy.megafon.ru:3128', 'https': 'url-proxy.megafon.ru:3128'}
 f = open('tree.json', 'r')
 tree_json = eval(f.read())
 f.close()
